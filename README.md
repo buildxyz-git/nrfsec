@@ -16,6 +16,21 @@ nrfsec requires python 3.7+ to run and can be installed with pip
 ```sh
 pip3 install nrfsec
 ```
+### Demo
+Extract useful target information.
+[Get chip information](images/nrfsec_info.gif)
+
+Read all memory regions on locked targets, including the UICR, FICR, ROM, RAM, and Peripherals.
+[Read all memory](images/nrfsec_readall.gif)
+
+Read specified memory regions with an optional delay before beginning memory extraction. Great for interacting with the target though any associated mobile applications in order to populate RAM and intialize peripherals.
+[Read Delay](images/nrfsec_read_delay.gif)
+
+Lock a target.
+[Lock target](images/nrfsec/locktarget.gif)
+
+Automated unlocking of a previously locked targets. The process extracts the ROM and UICR memory regions, performs a full memory erase, patches the UICR to unlock the target, then finally reflashes the new image. Debug sessions are now possible.
+[Unlock target](images/nrfsec/unlock.gif)
 
 ### Usage
 ```sh
