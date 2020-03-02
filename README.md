@@ -2,10 +2,10 @@
 
 nrfsec is security research tool used for unlocking and reading memory on nrf51 series SoCs from Nordic Semiconductor. 
 
-  - Read all target memory, bypassing the Memory Protection Unit (MPU) settings with integrated read gadget searching
-  - Automated unlock feature: read all program and UICR memory, erase all memory, patch UICR image, reflash target into unlocked state
-  - boot delay command flag for interacting with target prior to performing memory read, allow for RAM dumps
-  - All firmware images are saved for importing into your favorite disassembler 
+  - Read all target memory, bypassing the Memory Protection Unit (MPU) settings with integrated read gadget searching.
+  - Automated unlock feature: read all program and UICR memory, erase all memory, patch UICR image, reflash target into unlocked state.
+  - Boot delay command flag for interacting with target prior to performing memory read, allowing for RAM dumps.
+  - All firmware images are saved for importing into your favorite disassembler.
 
 ### Installation
 
@@ -16,7 +16,7 @@ nrfsec requires python 3.7+ to run and can be installed with pip
 ```sh
 pip3 install nrfsec
 ```
-### Demo
+### Demos
 Extract useful target information.
 ![Get chip information](https://raw.githubusercontent.com/buildxyz-git/nrfsec/master/images/nrfsec_info.gif)
 
@@ -27,10 +27,10 @@ Read specified memory regions with an optional delay before beginning memory ext
 ![Read Delay](https://raw.githubusercontent.com/buildxyz-git/nrfsec/master/images/nrfsec_read_delay.gif)
 
 Lock a target.
-![Lock target](https://raw.githubusercontent.com/buildxyz-git/nrfsec/master/images/locktarget.gif)
+![Lock target](https://raw.githubusercontent.com/buildxyz-git/nrfsec/master/images/nrfsec_locktarget.gif)
 
 Automated unlocking of a previously locked targets. The process extracts the ROM and UICR memory regions, performs a full memory erase, patches the UICR to unlock the target, then finally reflashes the new image. Debug sessions are now possible.
-![Unlock target](https://raw.githubusercontent.com/buildxyz-git/nrfsec/master/images/unlock.gif)
+![Unlock target](https://raw.githubusercontent.com/buildxyz-git/nrfsec/master/images/nrfsec_unlock.gif)
 
 ### Usage
 ```sh
