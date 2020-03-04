@@ -234,6 +234,7 @@ class DeviceInterface:
         self.chip_info['Total code size (in bytes)'] = '{}'.format(int(self.chip_info['Code Page Size'], 0) * int(self.chip_info['Code Memory Size'], 0))
         self.chip_info['Code Region 0 Length'] = '0x{:08X}'.format(read_gadget.Read32(self, nordic.CLENR0) if islocked else self.dev.get_mem32(nordic.CLENR0))
         self.chip_info['Number of RAM Blocks'] = '0x{:08X}'.format(read_gadget.Read32(self, nordic.NUMRAMBLOCK) if islocked else self.dev.get_mem32(nordic.NUMRAMBLOCK))
+        self.chip_info['Size of RAM Blocks'] = '0x{:08X}'.format(read_gadget.Read32(self, nordic.SIZERAMBLOCKS) if islocked else self.dev.get_mem32(nordic.SIZERAMBLOCKS))
         self.chip_info['Devcie ID 0'] = '0x{:08X}'.format(read_gadget.Read32(self, nordic.DEVICEID_0) if islocked else self.dev.get_mem32(nordic.DEVICEID_0))
         self.chip_info['Devcie ID 1'] = '0x{:08X}'.format(read_gadget.Read32(self, nordic.DEVICEID_1) if islocked else self.dev.get_mem32(nordic.DEVICEID_1))
         self.chip_info['ECB -> ECBDATAPTR'] = '0x{:08X}'.format(read_gadget.Read32(self, nordic.ECBDATAPTR) if islocked else self.dev.get_mem32(nordic.ECBDATAPTR))
@@ -345,6 +346,15 @@ class DeviceInterface:
         start_address = nordic.ROM_START
         end_address = int(self.chip_info['Code Page Size'], 0) * int(self.chip_info['Code Memory Size'], 0)
         file_path = '{}/0x{:08X}_0x{:08X}_ROM.bin'.format(path, start_address, end_address)
+        self.DumpToFile(file_path, start_address, end_address, read_gadget)
+        if not skipverify:
+            if not self.VerifyImage(file_path, start_address, end_address - start_address, read_gadget):
+                logger.error('failed to verify image {} -> aborting unlock'.format(file_path))
+                exit()
+        # dump RAM
+        start_address = nordic.RAM_START
+        end_address = nordic.RAM_START + int(self.chip_info['Number of RAM Blocks'], 0) * int(self.chip_info['Size of RAM Blocks'], 0)
+        file_path = '{}/0x{:08X}_0x{:08X}_RAM.bin'.format(path, start_address, end_address)
         self.DumpToFile(file_path, start_address, end_address, read_gadget)
         if not skipverify:
             if not self.VerifyImage(file_path, start_address, end_address - start_address, read_gadget):
