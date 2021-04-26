@@ -40,7 +40,7 @@ nrfsec read -s 0x1000 -e 0x2000 -d 8 -o outfile.bin
 
 
 ### Lock
-Issuing the lock sub-command will the target again. This was useful in developing nrfsec but can also be used if you simply want to lock your target if it is not already locked.
+Issuing the lock sub-command will lock the target again. This was useful in developing nrfsec but can also be used if you simply want to lock your target if it is not already locked.
 ```sh
 nrfsec lock
 ```
