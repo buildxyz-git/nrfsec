@@ -99,7 +99,7 @@ def main():
         logger.info('please specify a subcommand: {}'.format(sub_commands))
         exit()
 
-    # connect to ST-Link, required for all commands
+    # connect to OpenOCD, required for all commands
     logger.info('Connecting to debug interface @ {}Hz'.format(args.frequency))
     dev = dbg.DeviceInterface(args.frequency)
 

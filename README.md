@@ -8,7 +8,14 @@ nrfsec is security research tool used for unlocking and reading memory on nrf51 
   - All firmware images are saved for importing into your favorite disassembler.
 
 ### Installation
-nrfsec is built on the [pyswd library](https://github.com/cortexm/pyswd/) and currently only works with the [ST-Link](https://www.adafruit.com/product/2548) debugging interface.
+nrfsec talks to OpenOCD over its telnet interface, so you need a working OpenOCD setup for SWD (for example, using an ST-Link adapter).
+
+Start OpenOCD before running `nrfsec`:
+```sh
+sudo openocd -f openocd.cfg
+```
+
+By default nrfsec connects to `localhost:4444` and uses the `-f/--frequency` value to set OpenOCD `adapter speed` (in kHz).
 
 nrfsec requires python 3.7+ to run and can be installed with pip:
 
@@ -93,4 +100,3 @@ License
 ----
 
 GNU GPLv3 
-

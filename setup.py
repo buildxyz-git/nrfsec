@@ -30,7 +30,6 @@ setuptools.setup(
      ],
 
     install_requires=[
-        'pyswd',
         'tabulate',
         'tqdm',
         'argparse',
