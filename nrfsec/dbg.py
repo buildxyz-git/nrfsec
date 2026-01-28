@@ -4,8 +4,12 @@
 from .gadget import ReadGadget, WriteGadget
 from . import utils
 from . import nordic
-
-import swd 	# https://github.com/cortexm/pyswd
+from .openocd import (
+    OpenOcdClient,
+    OpenOcdCortexM,
+    OpenOcdError,
+    OpenOcdTarget,
+)
 import os
 import logging
 from tqdm import tqdm
@@ -32,20 +36,16 @@ class DeviceInterface:
 
     def __init__(self, freq):
         try:
-            self.dev = swd.Swd(swd_frequency=freq)
-            self.cortex_m = swd.CortexM(self.dev)
+            client = OpenOcdClient()
+            self.dev = OpenOcdTarget(client)
+            self.cortex_m = OpenOcdCortexM(client)
+            self.dev.set_adapter_speed(freq)
             logger.info('Device found: {}'.format(self.dev.get_version()))
             logger.debug('Target Voltage: {} volts'.format(self.dev.get_target_voltage()))
             logger.debug('IDCODE: {}'.format(hex(self.dev.get_idcode())))
 
-        except swd.stlink.usb.NoDeviceFoundException:
-            logger.error('No debug interface detected')
-            exit()
-        except swd.stlink.usb.StlinkUsbException:
-            logger.error('USB Error: Try reconnecting STLink')
-            exit()
-        except swd.stlink.StlinkException:
-            logger.error('Could not connect to target, ensure the target is powered')
+        except OpenOcdError as exc:
+            logger.error('Could not connect to OpenOCD: {}'.format(exc))
             exit()
 
     def isLocked(self):
@@ -69,8 +69,8 @@ class DeviceInterface:
         for reg in self.gp_regs_list:
             try:
                 self.cortex_m.set_reg(reg, set_value)
-            except swd.stlink.StlinkException:
-                logger.error("STLink write verification error")
+            except OpenOcdError:
+                logger.error("OpenOCD write verification error")
                 exit()
 
     def CheckGPRegsForValue(self, value):
